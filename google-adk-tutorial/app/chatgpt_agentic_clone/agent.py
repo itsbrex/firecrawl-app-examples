@@ -19,7 +19,7 @@ from google.adk.tools.base_tool import BaseTool
 from firecrawl import FirecrawlApp
 
 # Constants for model names
-MODEL_GEMINI_2_0_FLASH = "gemini-2.0-flash"
+MODEL_GEMINI_2_0_FLASH = "gemini-3-pro-preview"
 GEMINI_IMAGE_GEN_MODEL = "gemini-2.0-flash-exp-image-generation"
 
 # -------------------- TOOLS --------------------
