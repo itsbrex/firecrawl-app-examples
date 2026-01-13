@@ -1,10 +1,13 @@
-from firecrawl import FirecrawlApp
+import os
+from firecrawl import Firecrawl
 from pydantic import BaseModel, Field
 from datetime import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
-app = FirecrawlApp()
+
+# Initialize Firecrawl client with API key from environment
+app = Firecrawl(api_key=os.getenv("FIRECRAWL_API_KEY"))
 
 
 class Product(BaseModel):
@@ -18,18 +21,25 @@ class Product(BaseModel):
 
 
 def scrape_product(url: str):
-    extracted_data = app.scrape_url(
+    # Use v2 API scrape with JSON format for extraction
+    doc = app.scrape(
         url,
-        params={
-            "formats": ["extract"],
-            "extract": {"schema": Product.model_json_schema()},
-        },
+        formats=[
+            {
+                "type": "json",
+                "schema": Product,
+                "prompt": "Extract product information including name, price, currency, and main image URL",
+            }
+        ],
     )
 
-    # Add the scraping date to the extracted data
-    extracted_data["extract"]["timestamp"] = datetime.utcnow()
+    # Extract the data from the document's json field
+    extracted_data = doc.json if doc.json else {}
 
-    return extracted_data["extract"]
+    # Add the scraping date to the extracted data
+    extracted_data["timestamp"] = datetime.utcnow()
+
+    return extracted_data
 
 
 if __name__ == "__main__":

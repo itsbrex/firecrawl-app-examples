@@ -1,5 +1,5 @@
 streamlit
-firecrawl-py
+firecrawl-py>=4.12.0
 pydantic
 psycopg2-binary
 python-dotenv

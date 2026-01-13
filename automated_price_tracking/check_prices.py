@@ -2,14 +2,12 @@ import os
 import asyncio
 from database import Database
 from dotenv import load_dotenv
-from firecrawl import FirecrawlApp
 from scraper import scrape_product
 from notifications import send_price_alert
 
 load_dotenv()
 
 db = Database(os.getenv("POSTGRES_URL"))
-app = FirecrawlApp()
 
 # Threshold percentage for price drop alerts (e.g., 5% = 0.05)
 PRICE_DROP_THRESHOLD = 0.05
